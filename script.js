@@ -1,5 +1,5 @@
 /* ===========================
-   NAVBAR ACTIVE LINK
+NAVBAR ACTIVE LINK
 =========================== */
 
 const navLinks = document.querySelectorAll(".nav-links a");
@@ -13,40 +13,45 @@ navLinks.forEach(link => {
 
 
 /* ===========================
-   SMOOTH SCROLL
+SMOOTH SCROLL
 =========================== */
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener("click", function (e) {
-        e.preventDefault();
 
-        const target = document.querySelector(this.getAttribute("href"));
+        const targetId = this.getAttribute("href");
 
-        if (target) {
-            target.scrollIntoView({
-                behavior: "smooth"
-            });
+        if (targetId.startsWith("#")) {
+            e.preventDefault();
+
+            const target = document.querySelector(targetId);
+
+            if (target) {
+                target.scrollIntoView({
+                    behavior: "smooth"
+                });
+            }
         }
+
     });
 });
 
 
 /* ===========================
-   SCROLL ANIMATION
+SCROLL ANIMATION
 =========================== */
 
 const revealElements = document.querySelectorAll(
-".about-container, .project-card, .skill-box, .contact-container"
+".about-container, .project-card, .skill-box, .contact-container, .certificate-card"
 );
 
-const revealOnScroll = () => {
+function revealOnScroll() {
 
     const windowHeight = window.innerHeight;
 
     revealElements.forEach(el => {
 
         const elementTop = el.getBoundingClientRect().top;
-
         const revealPoint = 120;
 
         if (elementTop < windowHeight - revealPoint) {
@@ -54,13 +59,13 @@ const revealOnScroll = () => {
         }
 
     });
-};
+}
 
 window.addEventListener("scroll", revealOnScroll);
 
 
 /* ===========================
-   SKILL BAR ANIMATION
+SKILL BAR ANIMATION
 =========================== */
 
 const skillBars = document.querySelectorAll(".skill-progress");
@@ -69,9 +74,13 @@ function animateSkills() {
 
     skillBars.forEach(skill => {
 
-        const value = skill.getAttribute("data-skill");
+        const skillPosition = skill.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight;
 
-        skill.style.width = value + "%";
+        if (skillPosition < screenPosition) {
+            const value = skill.getAttribute("data-skill");
+            skill.style.width = value + "%";
+        }
 
     });
 
@@ -81,7 +90,7 @@ window.addEventListener("scroll", animateSkills);
 
 
 /* ===========================
-   PROJECT CARD HOVER EFFECT
+PROJECT CARD HOVER EFFECT
 =========================== */
 
 const projectCards = document.querySelectorAll(".project-card");
@@ -105,7 +114,7 @@ projectCards.forEach(card => {
 
 
 /* ===========================
-   CONTACT FORM MESSAGE
+CONTACT FORM MESSAGE
 =========================== */
 
 const contactForm = document.querySelector("form");
@@ -126,7 +135,7 @@ if (contactForm) {
 
 
 /* ===========================
-   MOBILE NAVBAR TOGGLE
+MOBILE NAVBAR TOGGLE
 =========================== */
 
 const menuToggle = document.createElement("div");
@@ -136,17 +145,21 @@ menuToggle.innerHTML = "☰";
 const navbar = document.querySelector(".navbar");
 const navMenu = document.querySelector(".nav-links");
 
-navbar.appendChild(menuToggle);
+if (navbar && navMenu) {
 
-menuToggle.addEventListener("click", () => {
+    navbar.appendChild(menuToggle);
 
-    navMenu.classList.toggle("show");
+    menuToggle.addEventListener("click", () => {
 
-});
+        navMenu.classList.toggle("show");
+
+    });
+
+}
 
 
 /* ===========================
-   YEAR AUTO UPDATE
+YEAR AUTO UPDATE
 =========================== */
 
 const footer = document.querySelector("footer p");
@@ -158,19 +171,45 @@ if (footer) {
     footer.innerHTML = `© ${year} Usha Rani Kannaji | DevOps & Cloud Engineer`;
 
 }
-const nameElement = document.querySelector('.name-highlight');
 
-if (nameElement) {
-    nameElement.addEventListener('click', () => {
-        nameElement.classList.add('clicked');
-        setTimeout(() => {
-            nameElement.classList.remove('clicked'); // effect lasts 0.8s
-        }, 800);
-    });
-}
-// Name Highlight Click
+
+/* ===========================
+NAME HIGHLIGHT CLICK EFFECT
+=========================== */
+
 const nameElement = document.querySelector(".name-highlight");
 
-nameElement.addEventListener("click", () => {
-    nameElement.classList.toggle("clicked");
+if (nameElement) {
+
+    nameElement.addEventListener("click", () => {
+
+        nameElement.classList.add("clicked");
+
+        setTimeout(() => {
+            nameElement.classList.remove("clicked");
+        }, 800);
+
+    });
+
+}
+
+
+/* ===========================
+CERTIFICATE CARD CLICK EFFECT
+=========================== */
+
+const certificateCards = document.querySelectorAll(".certificate-card");
+
+certificateCards.forEach(card => {
+
+    card.addEventListener("click", () => {
+
+        card.classList.add("clicked");
+
+        setTimeout(() => {
+            card.classList.remove("clicked");
+        }, 800);
+
+    });
+
 });
